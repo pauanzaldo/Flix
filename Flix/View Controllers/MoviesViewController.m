@@ -67,7 +67,7 @@
             [alert addAction:cancel];
             [alert addAction:ok];
             [self presentViewController:alert animated:YES completion:nil];
-
+            
             
         }
         else {
@@ -88,7 +88,10 @@
         
         [self.refreshControl endRefreshing];
         
+        
+        
     }];
+    
     [task resume];
 }
 
@@ -127,8 +130,8 @@
     
     NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
     cell.posterView.image = nil;
-    [cell.posterView setImageWithURL:posterURL];
 
+    [cell.posterView setImageWithURL:posterURL];
     
     return cell;
 }
