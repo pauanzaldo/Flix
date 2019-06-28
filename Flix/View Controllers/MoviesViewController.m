@@ -50,25 +50,36 @@
     NSURL *url = [NSURL URLWithString:@"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
+            
+            //Displays message error if no WiFi Connection
             NSLog(@"%@", [error localizedDescription]);
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cannot get movies" message:@"The internet connection appears to be offline" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self viewDidLoad];
+            }];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:cancel];
+            [alert addAction:ok];
+            [self presentViewController:alert animated:YES completion:nil];
+
+            
         }
         else {
             // Stop the activity indicator
             // Hides automatically if "Hides When Stopped" is enabled
+            
             [self.activityIndicator stopAnimating];
+            
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            // NSLog(@"%@", dataDictionary);
             
             self.movies = dataDictionary[@"results"];
             self.filteredData = self.movies;
-            for (NSDictionary *movie in self.movies) {
-                // NSLog(@"%@", movie[@"title"]);
-                
-            }
-            
+    
             
             [self.tableView reloadData];
         }
