@@ -11,12 +11,16 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 
-@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
+@property (strong, nonatomic) NSArray *filteredData;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+
 
 @end
 
@@ -27,8 +31,11 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.searchBar.delegate = self;
+
     
     [self fetchMovies];
+
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
@@ -53,24 +60,43 @@
             [self.activityIndicator stopAnimating];
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            NSLog(@"%@", dataDictionary);
+            // NSLog(@"%@", dataDictionary);
             
             self.movies = dataDictionary[@"results"];
+            self.filteredData = self.movies;
             for (NSDictionary *movie in self.movies) {
-                NSLog(@"%@", movie[@"title"]);
+                // NSLog(@"%@", movie[@"title"]);
                 
             }
+            
             
             [self.tableView reloadData];
         }
         
         [self.refreshControl endRefreshing];
+        
     }];
     [task resume];
 }
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
+    if (searchText.length != 0) {
+        NSString *searchString = [NSString stringWithString:searchText];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title contains[c] %@", searchString];
+        self.filteredData = [self.movies filteredArrayUsingPredicate:predicate];
+        NSLog(@"%@", self.filteredData);
+    }
+    else {
+        self.filteredData = self.movies;
+    }
+
+    [self.tableView reloadData];
+
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.movies.count;
+    return self.filteredData.count;
 }
 
 
@@ -78,7 +104,7 @@
     
     MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
     
-    NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredData[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.synposisLabel.text = movie[@"overview"];
     
@@ -89,6 +115,7 @@
     NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
     cell.posterView.image = nil;
     [cell.posterView setImageWithURL:posterURL];
+
     
     return cell;
 }
