@@ -4,7 +4,7 @@
 
 **Flix** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **X** hours spent in total
+Time spent: **18** hours spent in total
 
 ## User Stories
 
@@ -42,13 +42,15 @@ Here's a basic walkthrough of implemented user stories:
 
 <img src='http://g.recordit.co/miuOSIkjhV.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Tab Navigation
 
 Here's a  walkthrough of the tab navigation, with enlarged images
 
 <img src='http://g.recordit.co/boqZxXUQLa.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+<img src='http://g.recordit.co/kOtvBE2U6v.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 
