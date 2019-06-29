@@ -53,10 +53,18 @@ Here's a  walkthrough of the tab navigation, with enlarged images
 <img src='http://g.recordit.co/kOtvBE2U6v.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
+## Stretch feature
+
+Here's a stretch feature implemented by creativity (not on the speck) -- search for movies by genre. 
+
+<img src='http://g.recordit.co/pf5bMH7EzO.gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I wish I had more time to polish the feature I implemented which was not on the speck -- searching by category. 
 
 ## Credits
 
